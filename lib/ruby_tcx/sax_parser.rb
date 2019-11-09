@@ -1,0 +1,1 @@
+class SaxParser < BaseParser; end

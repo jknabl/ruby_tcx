@@ -1,6 +1,8 @@
-require "ruby_tcx/version"
-
-module RubyTcx
-  class Error < StandardError; end
-  # Your code goes here...
-end
+FILES = [
+  'version',
+  'base_parser',
+  'parser',
+  'sax_parser',
+  'tcx_file',
+]
+FILES.each { |file| require "ruby_tcx/#{file}" }
