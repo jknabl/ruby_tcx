@@ -4,7 +4,7 @@ class TcxFileTest < Minitest::Test
   attr_reader :file_name
 
   def setup
-    @file_name = 'data/stwm2019.tcx'
+    @file_name = RubyTcx::TestConfig::DEFAULT_FIXTURE_PATH
   end
 
   def test_requires_a_file_name
@@ -47,5 +47,23 @@ class TcxFileTest < Minitest::Test
     file = RubyTcx::TcxFile.new(file_name: file_name, parse_method: :memory)
 
     assert_equal file, file.parser.tcx_file
+  end
+
+  def test_opens_file
+    file = RubyTcx::TcxFile.new(file_name: file_name)
+
+    assert_kind_of File, file.file
+  end
+
+  def test_raises_if_file_is_not_file
+    assert_raises RubyTcx::TcxFile::PathNotFile do
+      RubyTcx::TcxFile.new(file_name: RubyTcx::TestConfig::FIXTURE_DIR)
+    end
+  end
+
+  def test_raises_if_no_file_at_path
+    assert_raises RubyTcx::TcxFile::FileNotFound do
+      RubyTcx::TcxFile.new(file_name: 'this/doesnt/exist')
+    end
   end
 end
