@@ -1,1 +1,3 @@
-class SaxParser < BaseParser; end
+module RubyTcx
+  class SaxParser < BaseParser; end
+end

@@ -9,34 +9,42 @@ class TcxFileTest < Minitest::Test
 
   def test_requires_a_file_name
     assert_raises ArgumentError do
-      TcxFile.new
+      RubyTcx::TcxFile.new
     end
   end
 
   def test_defaults_to_in_memory_parser
-    assert_equal Parser, TcxFile.new(file_name: file_name).parser.class
+    file = RubyTcx::TcxFile.new(file_name: file_name)
+
+    assert_equal RubyTcx::Parser, file.parser.class
   end
 
   def test_accepts_inmem_parser_method
-    assert_equal Parser, TcxFile.new(file_name: file_name, parse_method: :memory).parser.class
+    file = RubyTcx::TcxFile.new(file_name: file_name, parse_method: :memory)
+
+    assert_equal RubyTcx::Parser, file.parser.class
   end
 
   def test_accepts_sax_parser_method
-    assert_equal SaxParser, TcxFile.new(file_name: file_name, parse_method: :sax).parser.class
+    file = RubyTcx::TcxFile.new(file_name: file_name, parse_method: :sax)
+
+    assert_equal RubyTcx::SaxParser, file.parser.class
   end
 
   def test_accepts_string_input_for_parser_method
-    assert_equal SaxParser, TcxFile.new(file_name: file_name, parse_method: 'sax').parser.class
+    file = RubyTcx::TcxFile.new(file_name: file_name, parse_method: 'sax')
+
+    assert_equal RubyTcx::SaxParser, file.parser.class
   end
 
   def test_raises_on_invalid_parser_method
-    assert_raises TcxFile::UnsupportedParseMethod do
-      TcxFile.new(file_name: file_name, parse_method: :doesnt_exist).parser.class
+    assert_raises RubyTcx::TcxFile::UnsupportedParseMethod do
+      RubyTcx::TcxFile.new(file_name: file_name, parse_method: :doesnt_exist)
     end
   end
 
   def test_instantiates_parser_with_instance_of_self
-    file = TcxFile.new(file_name: file_name, parse_method: :memory)
+    file = RubyTcx::TcxFile.new(file_name: file_name, parse_method: :memory)
 
     assert_equal file, file.parser.tcx_file
   end

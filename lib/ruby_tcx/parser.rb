@@ -1,1 +1,3 @@
-class Parser < BaseParser; end
+module RubyTcx
+  class Parser < BaseParser; end
+end
