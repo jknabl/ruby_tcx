@@ -38,23 +38,7 @@ module RubyTcx
     end
 
     def parse_activity(activity_element)
-      RubyTcx::ActivityParser(element: activity_element, parser: self).parse
-    end
-
-    def parse_activity(document)
-      activity_node = document.at_xpath('//ns:Activity', namespace_mapping_for('ns1'))
-      id_node = activity_node.at_xpath('//ns:Id', namespace_mapping_for('ns1'))
-      id = Time.new(id_node.inner_html)
-      sport = activity_node['Sport']
-
-      lap_nodes = activity_node.xpath('//ns:Lap', namespace_mapping_for('ns1'))
-      laps = lap_nodes.map { |node| parse_lap(node) }
-
-      RubyTcx::Activity.new(
-        id: id,
-        sport: sport,
-        laps: laps
-      )
+      RubyTcx::ActivityParser.new(element: activity_element, parser: self).parse
     end
 
     def parse_lap(lap_element)

@@ -12,7 +12,7 @@ module RubyTcx
 
     def parse
       RubyTcx::Activity.new(
-        id: parse_time,
+        id: parse_id,
         sport: parse_sport,
         laps: parse_laps
       )
@@ -20,7 +20,7 @@ module RubyTcx
 
     private
 
-    def parse_time
+    def parse_id
       Time.parse(activity_element.at_xpath('ns:Id', namespace_mapping_for('ns1')))
     end
 
