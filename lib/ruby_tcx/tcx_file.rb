@@ -9,10 +9,10 @@ module RubyTcx
 
     def initialize(file_name:, parse_method: :memory)
       @file_name = file_name
+      validate_file
+
       @parse_method = parse_method
       @parser = parser_klass.new(self)
-
-      validate_file
     end
 
     private

@@ -4,20 +4,42 @@ module RubyTcx
   class Parser < BaseParser
     attr_reader :document
 
+    def initialize(tcx_file)
+      super(tcx_file)
+      @document = nokogiri_document_from(path: tcx_file.file_name)
+    end
+
     def parse
-      document = nokogiri_document_from(path: tcx_file.file_name)
       parse_activity(document)
+    end
+
+    def namespace_mapping_for(prefix)
+      { 'ns' => namespace_for(prefix) }
     end
 
     private
 
+    def namespace_prefix_mapping
+      {
+        'ns1' => 'xmlns',
+        'ns2' => 'xmlns:ns2',
+        'ns3' => 'xmlns:ns3',
+        'ns5' => 'xmlns:ns5',
+        'xsi' => 'xmlns:xsi'
+      }
+    end
+
+    def namespace_for(prefix)
+      document.namespaces[namespace_prefix_mapping[prefix]]
+    end
+
     def parse_activity(document)
-      activity_node = document.at_xpath('//xmlns:Activity')
-      id_node = activity_node.at_xpath('//xmlns:Id')
+      activity_node = document.at_xpath('//ns:Activity', namespace_mapping_for('ns1'))
+      id_node = activity_node.at_xpath('//ns:Id', namespace_mapping_for('ns1'))
       id = Time.new(id_node.inner_html)
       sport = activity_node['Sport']
 
-      lap_nodes = activity_node.xpath('//xmlns:Lap')
+      lap_nodes = activity_node.xpath('//ns:Lap', namespace_mapping_for('ns1'))
       laps = lap_nodes.map { |node| parse_lap(node) }
 
       RubyTcx::Activity.new(
@@ -29,15 +51,15 @@ module RubyTcx
 
     def parse_lap(lap)
       start_time = Time.new(lap['StartTime'])
-      total_time_seconds = lap.at_xpath('//xmlns:TotalTimeSeconds').inner_html.to_f
-      distance_meters = lap.at_xpath('//xmlns:DistanceMeters').inner_html.to_f
+      total_time_seconds = lap.at_xpath('//ns:TotalTimeSeconds', namespace_mapping_for('ns1')).inner_html.to_f
+      distance_meters = lap.at_xpath('//ns:DistanceMeters', namespace_mapping_for('ns1')).inner_html.to_f
       maximum_speed = lap.at_xpath('//xmlns:MaximumSpeed').inner_html.to_f
       calories = lap.at_xpath('//xmlns:Calories').inner_html.to_i
       avg_hr = lap.at_xpath('//xmlns:AverageHeartRateBpm').inner_html.to_i
       max_hr = lap.at_xpath('//xmlns:MaximumHeartRateBpm').inner_html.to_i
       intensity = lap.at_xpath('//xmlns:Intensity').inner_html
       trigger_method = lap.at_xpath('//xmlns:TriggerMethod').inner_html
-      avg_speed = lap.at_xpath('//ns3:AvgSpeed').inner_html&.to_i
+      avg_speed = lap.at_xpath('//ns:AvgSpeed', namespace_mapping_for('ns3')).inner_html&.to_i
       avg_run_cadence = lap.at_xpath('//ns3:AvgRunCadence').inner_html&.to_i
       max_run_cadence = lap.at_xpath('//ns3:MaxRunCadence').inner_html&.to_i
       track_point_nodes = lap.xpath('//xmlns:Trackpoint')
@@ -60,26 +82,8 @@ module RubyTcx
       )
     end
 
-    def parse_track_point(track_point)
-      time = Time.new(track_point.at_xpath('//xmlns:Time').inner_html)
-      latitude = track_point.at_xpath('//xmlns:LatitudeDegrees').inner_html&.to_f
-      longitude = track_point.at_xpath('//xmlns:LongitudeDegrees').inner_html&.to_f
-      altitude_meters = track_point.at_xpath('//xmlns:AltitudeMeters').inner_html&.to_i
-      distance_meters = track_point.at_xpath('//xmlns:DistanceMeters').inner_html&.to_i
-      hr_bpm = track_point.at_xpath('//xmlns:HeartRateBpm').inner_html&.to_i
-      speed = track_point.at_xpath('//ns3:Speed').inner_html&.to_f
-      cadence = track_point.at_xpath('//ns3:RunCadence').inner_html&.to_i
-
-      RubyTcx::TrackPoint.new(
-        time: time,
-        latitude: latitude,
-        longitude: longitude,
-        altitude_meters: altitude_meters,
-        distance_meters: distance_meters,
-        heart_rate_bpm: hr_bpm,
-        speed: speed,
-        run_cadence: cadence
-      )
+    def parse_track_point(track_point_element)
+      RubyTcx::TrackPointParser.new(element: track_point_element, parser: self).parse
     end
 
     def nokogiri_document_from(path:)

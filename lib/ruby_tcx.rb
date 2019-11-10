@@ -6,6 +6,7 @@ FILES = [
   'base_parser',
   'parser',
   'sax_parser',
+  'track_point_parser',
   'tcx_file',
 ]
 FILES.each { |file| require "ruby_tcx/#{file}" }

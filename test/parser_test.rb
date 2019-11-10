@@ -13,7 +13,6 @@ class ParserTest < Minitest::Test
 
   def test_parse_creates_activity
     parser = RubyTcx::Parser.new(@tcx_file)
-
     assert_kind_of RubyTcx::Activity, parser.parse
   end
 end
