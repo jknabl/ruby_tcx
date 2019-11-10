@@ -21,7 +21,7 @@ module RubyTcx
     private
 
     def parse_id
-      Time.parse(activity_element.at_xpath('ns:Id', default_namespace_mapping))
+      Time.parse(document_parser.find('ns:Id', activity_element))
     end
 
     def parse_sport
@@ -33,11 +33,7 @@ module RubyTcx
     end
 
     def parse_laps
-      activity_element.xpath('ns:Lap', default_namespace_mapping).map { |element| parse_lap(element) }
-    end
-
-    def default_namespace_mapping
-      document_parser.default_namespace_mapping
+      document_parser.find_all('ns:Lap', activity_element).map { |element| parse_lap(element) }
     end
   end
 end

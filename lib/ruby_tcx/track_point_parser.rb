@@ -26,43 +26,35 @@ module RubyTcx
     private
 
     def parse_time
-      Time.parse(track_point_element.at_xpath('ns:Time', default_namespace_mapping).inner_html)
+      Time.parse(parser.find('ns:Time', track_point_element).inner_html)
     end
 
     def parse_latitude
-      track_point_element.at_xpath('.//ns:LatitudeDegrees', default_namespace_mapping).inner_html&.to_f
+      parser.find('.//ns:LatitudeDegrees', track_point_element).inner_html&.to_f
     end
 
     def parse_longitude
-      track_point_element.at_xpath('.//ns:LongitudeDegrees', default_namespace_mapping).inner_html&.to_f
+      parser.find('.//ns:LongitudeDegrees', track_point_element).inner_html&.to_f
     end
 
     def parse_altitude_meters
-      track_point_element.at_xpath('ns:AltitudeMeters', default_namespace_mapping).inner_html&.to_i
+      parser.find('ns:AltitudeMeters', track_point_element).inner_html&.to_i
     end
 
     def parse_distance_meters
-      track_point_element.at_xpath('ns:DistanceMeters', default_namespace_mapping).inner_html&.to_f
+      parser.find('ns:DistanceMeters', track_point_element).inner_html&.to_f
     end
 
     def parse_hr_bpm
-      track_point_element.at_xpath('.//ns:HeartRateBpm/ns:Value', default_namespace_mapping).inner_html&.to_i
+      parser.find('.//ns:HeartRateBpm/ns:Value', track_point_element).inner_html&.to_i
     end
 
     def parse_speed
-      track_point_element.at_xpath('.//ns:Speed', activity_extension_mapping).inner_html&.to_f
+      parser.find('.//ns:Speed', track_point_element, 'ActivityExtension').inner_html&.to_f
     end
 
     def parse_cadence
-      track_point_element.at_xpath('.//ns:RunCadence', activity_extension_mapping).inner_html&.to_i
-    end
-
-    def default_namespace_mapping
-      parser.default_namespace_mapping
-    end
-
-    def activity_extension_mapping
-      parser.activity_extension_mapping
+      parser.find('.//ns:RunCadence', track_point_element, 'ActivityExtension').inner_html&.to_i
     end
   end
 end

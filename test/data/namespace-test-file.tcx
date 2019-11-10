@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TrainingCenterDatabase
+        xsi:schemaLocation="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 http://www.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd"
+        xmlns:ns3="http://www.garmin.com/xmlschemas/ActivityExtension/v2"
+        xmlns="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Activities>
+    <Activity Sport="Running">
+      <Id>2019-10-20T13:03:40.000Z</Id>
+    </Activity>
+    <Activity Sport="RunningFaster">
+      <Id>2019-10-20T17:03:40.000Z</Id>
+    </Activity>
+    <ns3:Activity Sport="Running">
+      <ns3:Id>2019-10-21T13:03:40.000Z</ns3:Id>
+    </ns3:Activity>
+    <ns3:Activity Sport="RunningFaster">
+      <ns3:Id>2019-10-21T17:03:40.000Z</ns3:Id>
+    </ns3:Activity>
+  </Activities>
+  <Author xsi:type="Application_t">
+    <Name>Connect Api</Name>
+    <Build>
+      <Version>
+        <VersionMajor>0</VersionMajor>
+        <VersionMinor>0</VersionMinor>
+        <BuildMajor>0</BuildMajor>
+        <BuildMinor>0</BuildMinor>
+      </Version>
+    </Build>
+    <LangID>en</LangID>
+    <PartNumber>006-D2449-00</PartNumber>
+  </Author>
+</TrainingCenterDatabase>

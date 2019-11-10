@@ -35,47 +35,47 @@ module RubyTcx
     end
 
     def parse_total_time_seconds
-      lap_element.at_xpath('ns:TotalTimeSeconds', default_namespace_mapping).inner_html.to_f
+      document_parser.find('ns:TotalTimeSeconds', lap_element).inner_html.to_f
     end
 
     def parse_distance_meters
-      lap_element.at_xpath('ns:DistanceMeters', default_namespace_mapping).inner_html.to_f
+      document_parser.find('ns:DistanceMeters', lap_element).inner_html.to_f
     end
 
     def parse_maximum_speed
-      lap_element.at_xpath('ns:MaximumSpeed', default_namespace_mapping).inner_html.to_f
+      document_parser.find('ns:MaximumSpeed', lap_element).inner_html.to_f
     end
 
     def parse_calories
-      lap_element.at_xpath('ns:Calories', default_namespace_mapping).inner_html.to_i
+      document_parser.find('ns:Calories', lap_element).inner_html.to_i
     end
 
     def parse_average_heart_rate_bpm
-      lap_element.at_xpath('ns:AverageHeartRateBpm/ns:Value', default_namespace_mapping).inner_html.to_i
+      document_parser.find('ns:AverageHeartRateBpm/ns:Value', lap_element).inner_html.to_i
     end
 
     def parse_maximum_heart_rate_bpm
-      lap_element.at_xpath('ns:MaximumHeartRateBpm/ns:Value', default_namespace_mapping).inner_html.to_i
+      document_parser.find('ns:MaximumHeartRateBpm/ns:Value', lap_element).inner_html.to_i
     end
 
     def parse_intensity
-      lap_element.at_xpath('ns:Intensity', default_namespace_mapping).inner_html
+      document_parser.find('ns:Intensity', lap_element).inner_html
     end
 
     def parse_trigger_method
-      lap_element.at_xpath('ns:TriggerMethod', default_namespace_mapping).inner_html
+      document_parser.find('ns:TriggerMethod', lap_element).inner_html
     end
 
     def parse_average_speed
-      lap_element.at_xpath('.//ns:AvgSpeed', activity_extension_mapping).inner_html&.to_f
+      document_parser.find('.//ns:AvgSpeed', lap_element, 'ActivityExtension').inner_html&.to_f
     end
 
     def parse_average_run_cadence
-      lap_element.at_xpath('.//ns:AvgRunCadence', activity_extension_mapping).inner_html&.to_i
+      document_parser.find('.//ns:AvgRunCadence', lap_element, 'ActivityExtension').inner_html&.to_i
     end
 
     def parse_maximum_run_cadence
-      lap_element.at_xpath('.//ns:MaxRunCadence', activity_extension_mapping).inner_html&.to_i
+      document_parser.find('.//ns:MaxRunCadence', lap_element, 'ActivityExtension').inner_html&.to_i
     end
 
     def parse_track_point(track_point_element)
@@ -83,17 +83,9 @@ module RubyTcx
     end
 
     def parse_track_points
-      lap_element.xpath('.//ns:Trackpoint', default_namespace_mapping).map do |node|
+      document_parser.find_all('.//ns:Trackpoint', lap_element).map do |node|
         parse_track_point(node)
       end
-    end
-
-    def default_namespace_mapping
-      document_parser.default_namespace_mapping
-    end
-
-    def activity_extension_mapping
-      document_parser.activity_extension_mapping
     end
   end
 end
