@@ -35,47 +35,47 @@ module RubyTcx
     end
 
     def parse_total_time_seconds
-      lap_element.at_xpath('ns:TotalTimeSeconds', namespace_mapping_for('TrainingCenterDatabase')).inner_html.to_f
+      lap_element.at_xpath('ns:TotalTimeSeconds', default_namespace_mapping).inner_html.to_f
     end
 
     def parse_distance_meters
-      lap_element.at_xpath('ns:DistanceMeters', namespace_mapping_for('TrainingCenterDatabase')).inner_html.to_f
+      lap_element.at_xpath('ns:DistanceMeters', default_namespace_mapping).inner_html.to_f
     end
 
     def parse_maximum_speed
-      lap_element.at_xpath('ns:MaximumSpeed', namespace_mapping_for('TrainingCenterDatabase')).inner_html.to_f
+      lap_element.at_xpath('ns:MaximumSpeed', default_namespace_mapping).inner_html.to_f
     end
 
     def parse_calories
-      lap_element.at_xpath('ns:Calories', namespace_mapping_for('TrainingCenterDatabase')).inner_html.to_i
+      lap_element.at_xpath('ns:Calories', default_namespace_mapping).inner_html.to_i
     end
 
     def parse_average_heart_rate_bpm
-      lap_element.at_xpath('ns:AverageHeartRateBpm/ns:Value', namespace_mapping_for('TrainingCenterDatabase')).inner_html.to_i
+      lap_element.at_xpath('ns:AverageHeartRateBpm/ns:Value', default_namespace_mapping).inner_html.to_i
     end
 
     def parse_maximum_heart_rate_bpm
-      lap_element.at_xpath('ns:MaximumHeartRateBpm/ns:Value', namespace_mapping_for('TrainingCenterDatabase')).inner_html.to_i
+      lap_element.at_xpath('ns:MaximumHeartRateBpm/ns:Value', default_namespace_mapping).inner_html.to_i
     end
 
     def parse_intensity
-      lap_element.at_xpath('ns:Intensity', namespace_mapping_for('TrainingCenterDatabase')).inner_html
+      lap_element.at_xpath('ns:Intensity', default_namespace_mapping).inner_html
     end
 
     def parse_trigger_method
-      lap_element.at_xpath('ns:TriggerMethod', namespace_mapping_for('TrainingCenterDatabase')).inner_html
+      lap_element.at_xpath('ns:TriggerMethod', default_namespace_mapping).inner_html
     end
 
     def parse_average_speed
-      lap_element.at_xpath('.//ns:AvgSpeed', namespace_mapping_for('ActivityExtension')).inner_html&.to_f
+      lap_element.at_xpath('.//ns:AvgSpeed', activity_extension_mapping).inner_html&.to_f
     end
 
     def parse_average_run_cadence
-      lap_element.at_xpath('.//ns:AvgRunCadence', namespace_mapping_for('ActivityExtension')).inner_html&.to_i
+      lap_element.at_xpath('.//ns:AvgRunCadence', activity_extension_mapping).inner_html&.to_i
     end
 
     def parse_maximum_run_cadence
-      lap_element.at_xpath('.//ns:MaxRunCadence', namespace_mapping_for('ActivityExtension')).inner_html&.to_i
+      lap_element.at_xpath('.//ns:MaxRunCadence', activity_extension_mapping).inner_html&.to_i
     end
 
     def parse_track_point(track_point_element)
@@ -83,13 +83,17 @@ module RubyTcx
     end
 
     def parse_track_points
-      lap_element.xpath('.//ns:Trackpoint', namespace_mapping_for('TrainingCenterDatabase')).map do |node|
+      lap_element.xpath('.//ns:Trackpoint', default_namespace_mapping).map do |node|
         parse_track_point(node)
       end
     end
 
-    def namespace_mapping_for(prefix)
-      document_parser.namespace_mapping_for(prefix)
+    def default_namespace_mapping
+      document_parser.default_namespace_mapping
+    end
+
+    def activity_extension_mapping
+      document_parser.activity_extension_mapping
     end
   end
 end

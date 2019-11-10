@@ -21,6 +21,14 @@ module RubyTcx
       { 'ns' => schema_location_for(namespace) }
     end
 
+    def default_namespace_mapping
+      namespace_mapping_for('TrainingCenterDatabase')
+    end
+
+    def activity_extension_mapping
+      namespace_mapping_for('ActivityExtension')
+    end
+
     private
 
     def parse_activities

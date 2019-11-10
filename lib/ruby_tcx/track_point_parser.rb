@@ -26,35 +26,43 @@ module RubyTcx
     private
 
     def parse_time
-      Time.parse(track_point_element.at_xpath('ns:Time', parser.namespace_mapping_for('TrainingCenterDatabase')).inner_html)
+      Time.parse(track_point_element.at_xpath('ns:Time', default_namespace_mapping).inner_html)
     end
 
     def parse_latitude
-      track_point_element.at_xpath('.//ns:LatitudeDegrees', parser.namespace_mapping_for('TrainingCenterDatabase')).inner_html&.to_f
+      track_point_element.at_xpath('.//ns:LatitudeDegrees', default_namespace_mapping).inner_html&.to_f
     end
 
     def parse_longitude
-      track_point_element.at_xpath('.//ns:LongitudeDegrees', parser.namespace_mapping_for('TrainingCenterDatabase')).inner_html&.to_f
+      track_point_element.at_xpath('.//ns:LongitudeDegrees', default_namespace_mapping).inner_html&.to_f
     end
 
     def parse_altitude_meters
-      track_point_element.at_xpath('ns:AltitudeMeters', parser.namespace_mapping_for('TrainingCenterDatabase')).inner_html&.to_i
+      track_point_element.at_xpath('ns:AltitudeMeters', default_namespace_mapping).inner_html&.to_i
     end
 
     def parse_distance_meters
-      track_point_element.at_xpath('ns:DistanceMeters', parser.namespace_mapping_for('TrainingCenterDatabase')).inner_html&.to_f
+      track_point_element.at_xpath('ns:DistanceMeters', default_namespace_mapping).inner_html&.to_f
     end
 
     def parse_hr_bpm
-      track_point_element.at_xpath('.//ns:HeartRateBpm/ns:Value', parser.namespace_mapping_for('TrainingCenterDatabase')).inner_html&.to_i
+      track_point_element.at_xpath('.//ns:HeartRateBpm/ns:Value', default_namespace_mapping).inner_html&.to_i
     end
 
     def parse_speed
-      track_point_element.at_xpath('.//ns:Speed', parser.namespace_mapping_for('ActivityExtension')).inner_html&.to_f
+      track_point_element.at_xpath('.//ns:Speed', activity_extension_mapping).inner_html&.to_f
     end
 
     def parse_cadence
-      track_point_element.at_xpath('.//ns:RunCadence', parser.namespace_mapping_for('ActivityExtension')).inner_html&.to_i
+      track_point_element.at_xpath('.//ns:RunCadence', activity_extension_mapping).inner_html&.to_i
+    end
+
+    def default_namespace_mapping
+      parser.default_namespace_mapping
+    end
+
+    def activity_extension_mapping
+      parser.activity_extension_mapping
     end
   end
 end
