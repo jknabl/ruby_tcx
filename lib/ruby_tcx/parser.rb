@@ -10,7 +10,7 @@ module RubyTcx
     end
 
     def parse
-      parse_activity(document)
+      parse_activities
     end
 
     def namespace_mapping_for(prefix)
@@ -31,6 +31,14 @@ module RubyTcx
 
     def namespace_for(prefix)
       document.namespaces[namespace_prefix_mapping[prefix]]
+    end
+
+    def parse_activities
+      document.xpath('//ns:Activity', namespace_mapping_for('ns1')).map { |element| parse_activity(element) }
+    end
+
+    def parse_activity(activity_element)
+      RubyTcx::ActivityParser(element: activity_element, parser: self).parse
     end
 
     def parse_activity(document)
