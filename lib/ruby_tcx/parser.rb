@@ -41,14 +41,6 @@ module RubyTcx
       RubyTcx::ActivityParser.new(element: activity_element, parser: self).parse
     end
 
-    def parse_lap(lap_element)
-      RubyTcx::LapParser.new(element: lap_element, parser: self).parse
-    end
-
-    def parse_track_point(track_point_element)
-      RubyTcx::TrackPointParser.new(element: track_point_element, parser: self).parse
-    end
-
     def nokogiri_document_from(path:)
       file = File.open(path)
       doc = Nokogiri::XML(file)
