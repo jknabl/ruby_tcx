@@ -3,31 +3,36 @@
 
 A Garmin TCX file parser for Ruby!
 
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'ruby_tcx'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install ruby_tcx
-
 ## Usage
 
-Parse parse parse!
+First, create a `TcxFile`. Then, parse it to get `Activity` objects with nice attribute interfaces. That's it! 
+
+For example: 
+
+```
+> file = RubyTcx::TcxFile.new(file_name: '/Users/me/Downloads/activity_3661550629.tcx')
+> activities = file.parse
+> activities.first.id
+=> 2019-05-18 19:36:40 UTC
+
+> first_lap = activities.first.laps.first
+> first_lap.average_heart_rate_bpm
+=> 120
+
+> last_track_point = first_lap.track_points.last
+=> #<RubyTcx::TrackPoint:0x007f8c8d1de130 @time=2019-05-18 19:44:39 UTC, @latitude=45.42275419458747, 
+longitude=-75.69023067131639, @altitude_meters=67, @distance_meters=1002.9099731445312, @heart_rate_bpm=130, 
+@speed=3.0320000648498535, @run_cadence=93>
+
+```
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+Install dependencies using `bin/setup` or just `bundle install`.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+To run the test suite, `rake test`. 
+
+To fire up a console and play around, `bin/console`.
 
 ## Contributing
 
