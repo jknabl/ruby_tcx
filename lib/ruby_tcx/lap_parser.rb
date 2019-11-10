@@ -43,7 +43,7 @@ module RubyTcx
     end
 
     def parse_maximum_speed
-      document_parser.find('ns:MaximumSpeed', lap_element).inner_html.to_f
+      document_parser.find('ns:MaximumSpeed', lap_element)&.inner_html.to_f
     end
 
     def parse_calories
@@ -51,11 +51,11 @@ module RubyTcx
     end
 
     def parse_average_heart_rate_bpm
-      document_parser.find('ns:AverageHeartRateBpm/ns:Value', lap_element).inner_html.to_i
+      document_parser.find('ns:AverageHeartRateBpm/ns:Value', lap_element)&.inner_html.to_i
     end
 
     def parse_maximum_heart_rate_bpm
-      document_parser.find('ns:MaximumHeartRateBpm/ns:Value', lap_element).inner_html.to_i
+      document_parser.find('ns:MaximumHeartRateBpm/ns:Value', lap_element)&.inner_html.to_i
     end
 
     def parse_intensity
@@ -67,15 +67,15 @@ module RubyTcx
     end
 
     def parse_average_speed
-      document_parser.find('.//ns:AvgSpeed', lap_element, 'ActivityExtension').inner_html&.to_f
+      document_parser.find('.//ns:AvgSpeed', lap_element, 'ActivityExtension')&.inner_html&.to_f
     end
 
     def parse_average_run_cadence
-      document_parser.find('.//ns:AvgRunCadence', lap_element, 'ActivityExtension').inner_html&.to_i
+      document_parser.find('.//ns:AvgRunCadence', lap_element, 'ActivityExtension')&.inner_html&.to_i
     end
 
     def parse_maximum_run_cadence
-      document_parser.find('.//ns:MaxRunCadence', lap_element, 'ActivityExtension').inner_html&.to_i
+      document_parser.find('.//ns:MaxRunCadence', lap_element, 'ActivityExtension')&.inner_html&.to_i
     end
 
     def parse_track_point(track_point_element)

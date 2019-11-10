@@ -15,6 +15,10 @@ module RubyTcx
       @parser = parser_klass.new(self)
     end
 
+    def parse
+      parser.parse
+    end
+
     def namespaces
       {
         'TrainingCenterDatabase' => 'http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2',

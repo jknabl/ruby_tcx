@@ -30,31 +30,31 @@ module RubyTcx
     end
 
     def parse_latitude
-      parser.find('.//ns:LatitudeDegrees', track_point_element).inner_html&.to_f
+      parser.find('.//ns:LatitudeDegrees', track_point_element)&.inner_html&.to_f
     end
 
     def parse_longitude
-      parser.find('.//ns:LongitudeDegrees', track_point_element).inner_html&.to_f
+      parser.find('.//ns:LongitudeDegrees', track_point_element)&.inner_html&.to_f
     end
 
     def parse_altitude_meters
-      parser.find('ns:AltitudeMeters', track_point_element).inner_html&.to_i
+      parser.find('ns:AltitudeMeters', track_point_element)&.inner_html&.to_i
     end
 
     def parse_distance_meters
-      parser.find('ns:DistanceMeters', track_point_element).inner_html&.to_f
+      parser.find('ns:DistanceMeters', track_point_element)&.inner_html&.to_f
     end
 
     def parse_hr_bpm
-      parser.find('.//ns:HeartRateBpm/ns:Value', track_point_element).inner_html&.to_i
+      parser.find('.//ns:HeartRateBpm/ns:Value', track_point_element)&.inner_html&.to_i
     end
 
     def parse_speed
-      parser.find('.//ns:Speed', track_point_element, 'ActivityExtension').inner_html&.to_f
+      parser.find('.//ns:Speed', track_point_element, 'ActivityExtension')&.inner_html&.to_f
     end
 
     def parse_cadence
-      parser.find('.//ns:RunCadence', track_point_element, 'ActivityExtension').inner_html&.to_i
+      parser.find('.//ns:RunCadence', track_point_element, 'ActivityExtension')&.inner_html&.to_i
     end
   end
 end
