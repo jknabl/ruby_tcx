@@ -13,28 +13,18 @@ module RubyTcx
       parse_activities
     end
 
-    def namespace_mapping_for(prefix)
-      { 'ns' => namespace_for(prefix) }
+    def schema_location_for(namespace)
+      tcx_file.namespaces[namespace]
+    end
+
+    def namespace_mapping_for(namespace)
+      { 'ns' => schema_location_for(namespace) }
     end
 
     private
 
-    def namespace_prefix_mapping
-      {
-        'ns1' => 'xmlns',
-        'ns2' => 'xmlns:ns2',
-        'ns3' => 'xmlns:ns3',
-        'ns5' => 'xmlns:ns5',
-        'xsi' => 'xmlns:xsi'
-      }
-    end
-
-    def namespace_for(prefix)
-      document.namespaces[namespace_prefix_mapping[prefix]]
-    end
-
     def parse_activities
-      document.xpath('//ns:Activity', namespace_mapping_for('ns1')).map { |element| parse_activity(element) }
+      document.xpath('//ns:Activity', namespace_mapping_for('TrainingCenterDatabase')).map { |element| parse_activity(element) }
     end
 
     def parse_activity(activity_element)

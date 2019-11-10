@@ -15,6 +15,13 @@ module RubyTcx
       @parser = parser_klass.new(self)
     end
 
+    def namespaces
+      {
+        'TrainingCenterDatabase' => 'http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2',
+        'ActivityExtension' => 'http://www.garmin.com/xmlschemas/ActivityExtension/v2',
+      }
+    end
+
     private
 
     def validate_file
