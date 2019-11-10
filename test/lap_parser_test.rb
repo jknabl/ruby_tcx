@@ -5,7 +5,7 @@ class LapParserTest < Minitest::Test
   attr_reader :lap_element, :lap, :parser
 
   def setup
-    tcx_file = RubyTcx::TcxFile.new(file_name: RubyTcx::TestConfig::DEFAULT_FIXTURE_PATH)
+    tcx_file = RubyTcx::TestConfig.load_fixture('stwm2019')
     nokogiri_doc = tcx_file.parser.document
     @lap_element = nokogiri_doc.xpath('//xmlns:Lap')[1]
     @parser = RubyTcx::LapParser.new(element: lap_element, parser: tcx_file.parser)

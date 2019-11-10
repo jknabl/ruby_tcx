@@ -6,7 +6,7 @@ class TrackPointParserTest < Minitest::Test
   attr_reader :track_point_element, :track_point, :parser
 
   def setup
-    tcx_file = RubyTcx::TcxFile.new(file_name: RubyTcx::TestConfig::DEFAULT_FIXTURE_PATH)
+    tcx_file = RubyTcx::TestConfig.load_fixture('stwm2019')
     nokogiri_doc = tcx_file.parser.document
     @track_point_element = nokogiri_doc.xpath('//xmlns:Trackpoint')[1]
     @parser = RubyTcx::TrackPointParser.new(element: track_point_element, parser: tcx_file.parser)
