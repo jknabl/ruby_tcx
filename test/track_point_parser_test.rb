@@ -9,7 +9,7 @@ class TrackPointParserTest < Minitest::Test
     tcx_file = RubyTcx::TcxFile.new(file_name: RubyTcx::TestConfig::DEFAULT_FIXTURE_PATH)
     nokogiri_doc = tcx_file.parser.document
     @track_point_element = nokogiri_doc.xpath('//xmlns:Trackpoint')[1]
-    @parser = RubyTcx::TrackPointParser.new(element: @track_point_element, parser: tcx_file.parser)
+    @parser = RubyTcx::TrackPointParser.new(element: track_point_element, parser: tcx_file.parser)
     @track_point = parser.parse
   end
 
