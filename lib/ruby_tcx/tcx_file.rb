@@ -5,24 +5,21 @@ module RubyTcx
     class PathNotFile < StandardError; end
 
     # Responsible for transforming a text TCX file into a collection of Nokogiri elements.
-    attr_reader :file_name, :parse_method, :parser, :file
+    attr_reader :file_name, :parse_method, :parser
 
     def initialize(file_name:, parse_method: :memory)
       @file_name = file_name
-      @file = load_file
       @parse_method = parse_method
       @parser = parser_klass.new(self)
+
+      validate_file
     end
 
     private
 
-    def load_file
+    def validate_file
       raise FileNotFound, 'No TCX file found at given path.' unless File.exist?(file_name)
-
-      file = File.open(file_name)
-
-      raise PathNotFile, 'Given path is not a file (e.g., may be a directory).' unless File.file?(file)
-      file
+      raise PathNotFile, 'Given path is not a file (e.g., may be a directory).' unless File.file?(file_name)
     end
 
     def parser_klass

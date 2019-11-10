@@ -1,6 +1,7 @@
 module RubyTcx
   class Lap
-    attr_reader :total_time_seconds,
+    attr_reader :start_time,
+                :total_time_seconds,
                 :distance_meters,
                 :maximum_speed,
                 :calories,
@@ -9,11 +10,13 @@ module RubyTcx
                 :intensity,
                 :cadence,
                 :trigger_method,
-                :track,
-                :notes,
-                :extensions
+                :track_points,
+                :average_speed,
+                :average_run_cadence,
+                :maximum_run_cadence
 
-    def initialize(total_time_seconds: nil,
+    def initialize(start_time: nil,
+                  total_time_seconds: nil,
                    distance_meters: nil,
                    maximum_speed: nil,
                    calories: nil,
@@ -22,10 +25,12 @@ module RubyTcx
                    intensity: nil,
                    cadence: nil,
                    trigger_method: nil,
-                   track: nil,
-                   notes: nil,
-                   extensions: nil
+                   track_points: nil,
+                   average_speed: nil,
+                   average_run_cadence: nil,
+                   maximum_run_cadence: nil
                    )
+      @start_time = start_time
       @total_time_seconds = total_time_seconds
       @distance_meters = distance_meters
       @maximum_speed = maximum_speed
@@ -35,11 +40,10 @@ module RubyTcx
       @intensity = intensity
       @cadence = cadence
       @trigger_method = trigger_method
-      @track = track
-      @notes = notes
-      @extensions = extensions
+      @track_points = track_points
+      @average_speed = average_speed
+      @average_run_cadence = average_run_cadence
+      @maximum_run_cadence = maximum_run_cadence
     end
-
-
   end
 end

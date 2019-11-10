@@ -1,5 +1,6 @@
 FILES = [
   'version',
+  'track_point',
   'activity',
   'lap',
   'base_parser',
